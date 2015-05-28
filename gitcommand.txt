@@ -1,0 +1,9 @@
+打开：
+开始菜单里找到“Git”->“Git Bash”
+初始化设置：
+$ git config --global user.name "Your Name"
+$ git config --global user.email "email@example.com"
+提交：
+$ git add file1.txt
+$ git add file2.txt file3.txt
+$ git commit -m "add 3 files."
