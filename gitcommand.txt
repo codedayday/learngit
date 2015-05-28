@@ -45,4 +45,12 @@ $ git commit -m "remove test.txt"
 把误删的文件恢复到最新版本：
 $ git checkout -- test.txt
 
+将github上的仓库和本地的关联：
+$ git remote add origin git@github.com:codedayday/learngit.git
+把本地库的内容第一次推送到远程，用git push命令，实际上是把当前分支master推送到远程
+$ git push -u origin master
+此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改
+
+
+
 
