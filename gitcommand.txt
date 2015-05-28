@@ -54,6 +54,70 @@ $ git push -u origin master
 从远程仓库clone：
 $ git clone git@github.com:codedayday/gitskills.git
 
+创建分支，并切换到新建分支：
+git checkout -b dev
+分开的命令：
+git branch dev
+git checkout dev
 
+查看所有分支(当前分支前会有一个*)：
+git branch
 
+dev分支的工作成果合并到master分支上,git merge命令用于合并指定分支到当前分支：
+git merge dev
+删除dev分支:
+git branch -d dev
 
+如果要强制禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。
+$ git merge --no-ff -m "merge with no-ff" dev
+$ git log --graph --pretty=oneline --abbrev-commit
+*   7825a50 merge with no-ff
+|\
+| * 6224937 add merge
+|/
+*   59bc1cb conflict fixed
+
+Git还提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作：
+$ git stash   用git status查看工作区，就是干净的,可以放心地创建分支来修复bug。
+用git stash list命令看看：
+$ git stash list
+工作现场还在，Git把stash内容存在某个地方了，但是需要恢复一下，有两个办法：
+
+一是用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除；
+恢复指定的stash:
+$ git stash apply stash@{0}
+另一种方式是用git stash pop，恢复的同时把stash内容也删了：
+如果要强行删除没有被合并过的分支，需要使用命令git branch -D feature-vulcan
+
+查看远程库信息，使用git remote -v；
+
+本地新建的分支如果不推送到远程，对其他人就是不可见的；
+
+从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+
+在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+
+从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+
+敲命令git tag <name>就可以打一个新标签：
+可以用命令git tag查看所有标签
+找到历史提交的commit id :$ git tag v0.9 6224937
+
+注意，标签不是按时间顺序列出，而是按字母排序的。可以用git show <tagname>查看标签信息
+还可以创建带有说明的标签，用-a指定标签名，-m指定说明文字：
+
+$ git tag -a v0.1 -m "version 0.1 released" 3628164
+如果标签打错了，也可以删除：
+$ git tag -d v0.1
+因为创建的标签都只存储在本地，不会自动推送到远程。所以，打错的标签可以在本地安全删除。
+
+如果要推送某个标签到远程，使用命令git push origin <tagname>：
+或者，一次性推送全部尚未推送到远程的本地标签：
+$ git push origin --tags
+
+如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除：
+$ git tag -d v0.9
+然后，从远程删除。删除命令也是push，但是格式如下：
+$ git push origin :refs/tags/v0.9
